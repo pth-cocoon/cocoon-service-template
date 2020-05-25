@@ -58,9 +58,9 @@ public abstract class SecurityConfiguration extends WebSecurityConfigurerAdapter
     loginFilter.setAuthenticationFailureHandler(getLoginFailureHandler());
     http.authorizeRequests()
         .antMatchers(getWhiteList()).permitAll()
-        /* .antMatchers("/public/**", "/login", "/auth/**", "/sign/**", "/api/**").permitAll()
-         .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security",
-             "/swagger-ui.html", "/webjars/**", "/swagger-resources/configuration/ui", "/swagge‌r-ui.html").permitAll()*/
+        .antMatchers("/public/**", "/login", "/auth/**", "/sign/**", "/api/**").permitAll()
+        .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security",
+            "/swagger-ui.html", "/webjars/**", "/swagger-resources/configuration/ui", "/swagge‌r-ui.html").permitAll()
         .antMatchers(HttpMethod.OPTIONS).permitAll()
         .anyRequest().access("@rbacService.hasPermission(request,authentication)")
         .and().cors().and().csrf().disable()

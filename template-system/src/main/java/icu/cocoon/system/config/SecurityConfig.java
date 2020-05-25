@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import icu.cocoon.core.resp.IResp;
 import icu.cocoon.security.config.SecurityConfiguration;
 import icu.cocoon.dao.base.Resp;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -46,6 +48,8 @@ public class SecurityConfig extends SecurityConfiguration {
 
   @Override
   public String[] getWhiteList() {
-    return new String[0];
+    List<String> whiteList = new ArrayList<>();
+    whiteList.add("/public");
+    return whiteList.toArray(new String[0]);
   }
 }
