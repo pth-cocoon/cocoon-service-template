@@ -22,9 +22,7 @@
     <module>common-core</module>
     <module>template-system</module>
     <module>template-security</module>
-    <module>template-dao</module>
     <module>template-mbp-dao</module>
-    <module>template-base-dao</module>
   </modules>
 
   <distributionManagement>
