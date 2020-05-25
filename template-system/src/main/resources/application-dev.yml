@@ -1,0 +1,25 @@
+spring:
+  security:
+    user:
+      name: root
+      password: root
+  datasource:
+    url: jdbc:mysql://103.45.105.120:3306/security_master_test?serverTimezone=UTC
+    username: xce
+    password: xce123456
+    hikari:
+      max-lifetime: 30000
+  cache:
+    type: redis
+    redis:
+      time-to-live: 120s
+      cache-null-values: false
+logging:
+  file:
+    path: ../larva/log
+server:
+  port: 8080
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>icu.cocoon.template</groupId>
+  <artifactId>cocoon-service-template</artifactId>
+  <version>0.0.1</version>
+  <packaging>pom</packaging>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.3.0.RELEASE</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+
+  <modules>
+
+    <module>common-utils</module>
+    <module>common-core</module>
+    <module>template-system</module>
+    <module>template-security</module>
+    <module>template-dao</module>
+    <module>template-mbp-dao</module>
+    <module>template-base-dao</module>
+  </modules>
+
+  <distributionManagement>
+    <repository>
+      <id>rdc-releases</id>
+      <url>https://repo.rdc.aliyun.com/repository/130835-release-MIHblp/</url>
+    </repository>
+    <snapshotRepository>
+      <id>rdc-snapshots</id>
+      <url>https://repo.rdc.aliyun.com/repository/130835-snapshot-xpvREz/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+
+</project>
