@@ -8,8 +8,10 @@ import icu.cocoon.security.service.JwtService;
 import icu.cocoon.security.service.SecurityUserService;
 import icu.cocoon.security.service.VerificationCodeService;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -25,6 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @author xce
  * @date 2020/1/6  16:54
  */
+@Slf4j
 public abstract class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Resource
@@ -49,6 +52,7 @@ public abstract class SecurityConfiguration extends WebSecurityConfigurerAdapter
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
+    log.info("白名单列单：{}", Arrays.toString(getWhiteList()));
     AbstractAuthenticationProcessingFilter loginFilter = new LoginFilter();
     List<AuthenticationProvider> providerList = new ArrayList<>();
     providerList.add(new PasswordAuthenticationProvider(securityUserService, passwordEncoder));
@@ -58,7 +62,7 @@ public abstract class SecurityConfiguration extends WebSecurityConfigurerAdapter
     loginFilter.setAuthenticationFailureHandler(getLoginFailureHandler());
     http.authorizeRequests()
         .antMatchers(getWhiteList()).permitAll()
-        .antMatchers("/public/**", "/login", "/auth/**", "/sign/**", "/api/**").permitAll()
+//        .antMatchers("/public/**", "/login", "/auth/**", "/sign/**", "/api/**").permitAll()
         .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security",
             "/swagger-ui.html", "/webjars/**", "/swagger-resources/configuration/ui", "/swagge‌r-ui.html").permitAll()
         .antMatchers(HttpMethod.OPTIONS).permitAll()

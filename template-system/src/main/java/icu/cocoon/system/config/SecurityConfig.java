@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +23,9 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends SecurityConfiguration {
+
+  @Value("${whitelist.user}")
+  private String whitelistUser;
 
 
   @Override
@@ -49,7 +55,10 @@ public class SecurityConfig extends SecurityConfiguration {
   @Override
   public String[] getWhiteList() {
     List<String> whiteList = new ArrayList<>();
-    whiteList.add("/public");
+    whiteList.add("/public/**");
+    if (StringUtils.isNotBlank(whitelistUser)){
+      return whitelistUser.split(",");
+    }
     return whiteList.toArray(new String[0]);
   }
 }

@@ -36,6 +36,7 @@ public class UserDetailsServiceImpl implements SecurityUserService {
     return buildUserDetails(userService.getByPhone(phone));
   }
 
+  @Override
   public UserDetails getCurrentUserUserDetails() {
     String username = getCurrentUsername();
     User user = userService.getByUsername(username);

@@ -25,8 +25,8 @@ public abstract class BaseEntity implements Serializable {
   @ApiModelProperty(value = "更新时间")
   protected Long updateTime;
 
-  protected Long getCreateTime() {
-    return (id >> 22L & ~(-1L << 41L)) + 5L;
+  public Long getCreateTime() {
+    return (id >> 22L & ~(-1L << 41L)) + 5L+1288834974657L;
   }
 
 
