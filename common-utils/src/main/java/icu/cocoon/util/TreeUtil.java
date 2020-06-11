@@ -11,7 +11,12 @@ import java.util.stream.Collectors;
  */
 public class TreeUtil {
 
-  public static TreeNode getInitTree(List<? extends BaseTree> nodes) {
+  /**
+   * 获得一个初始化的树.
+   * @param nodes
+   * @return
+   */
+  public static TreeNode getInitTree(List<? extends ITree> nodes) {
     List<TreeNode> list = transformToTreeNode(nodes);
     Map<Long, List<TreeNode>> map = list.stream().collect(Collectors.groupingBy(TreeNode::getParentId));
     TreeNode root = new TreeNode(0L, 0L, "全部", null);
@@ -27,11 +32,11 @@ public class TreeUtil {
   }
 
 
-  private static TreeNode transformToTreeNode(BaseTree tree) {
+  private static TreeNode transformToTreeNode(ITree tree) {
     return new TreeNode(tree.getId(), tree.getParentId(), tree.getLabel(), null);
   }
 
-  private static List<TreeNode> transformToTreeNode(List<? extends BaseTree> treeList) {
+  private static List<TreeNode> transformToTreeNode(List<? extends ITree> treeList) {
     return treeList.stream().map(TreeUtil::transformToTreeNode).collect(Collectors.toList());
   }
 

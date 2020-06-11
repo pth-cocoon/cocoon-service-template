@@ -88,7 +88,7 @@ public abstract class BaseController<T extends BaseEntity, S extends BaseIServic
 
   @ApiOperation("分页查询")
   @GetMapping("/page")
-  public IResp<T> page(@RequestParam Map<String, String> params) {
+  public RespPage<T> page(@RequestParam Map<String, String> params) {
     if (params == null) {
       return RespPage.success(getService().page(new Page<>()));
     }
