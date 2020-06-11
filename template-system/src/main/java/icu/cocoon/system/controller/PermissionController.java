@@ -2,7 +2,7 @@ package icu.cocoon.system.controller;
 
 
 import icu.cocoon.core.resp.IResp;
-import icu.cocoon.system.base.BaseController;
+import icu.cocoon.dao.base.BaseController;
 import icu.cocoon.dao.base.Resp;
 import icu.cocoon.system.entity.Permission;
 import icu.cocoon.system.service.PermissionService;

@@ -2,13 +2,12 @@ package icu.cocoon.system.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import icu.cocoon.core.resp.IResp;
-import icu.cocoon.security.config.SecurityConfiguration;
 import icu.cocoon.dao.base.Resp;
+import icu.cocoon.security.config.SecurityConfiguration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,7 +55,7 @@ public class SecurityConfig extends SecurityConfiguration {
   public String[] getWhiteList() {
     List<String> whiteList = new ArrayList<>();
     whiteList.add("/public/**");
-    if (StringUtils.isNotBlank(whitelistUser)){
+    if (StringUtils.isNotBlank(whitelistUser)) {
       return whitelistUser.split(",");
     }
     return whiteList.toArray(new String[0]);

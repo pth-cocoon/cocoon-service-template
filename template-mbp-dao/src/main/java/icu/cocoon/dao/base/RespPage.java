@@ -1,8 +1,6 @@
-package icu.cocoon.dao.base;
+package icu.cocoon.core.resp;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import icu.cocoon.core.resp.IPageInfo;
-import icu.cocoon.core.resp.IResp;
 import java.util.Collection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,15 +13,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RespPage<T> implements IResp<T> {
+public class RespPage<T> implements IPageInfo<T> {
 
   private int code;
   private String message;
   private Collection<T> data;
-  private IPageInfo IPageInfo;
-
-
-
+  private long current;
+  private long size;
+  private long total;
 
 
   public static <T> RespPage<T> success(IPage<T> page) {
@@ -35,22 +32,9 @@ public class RespPage<T> implements IResp<T> {
     respPage.setCode(respPage.getSuccessCode());
     respPage.setMessage(message);
     respPage.setData(page.getRecords());
-    respPage.setIPageInfo(new IPageInfo() {
-      @Override
-      public long getCurrent() {
-        return page.getCurrent();
-      }
-
-      @Override
-      public long getSize() {
-        return page.getSize();
-      }
-
-      @Override
-      public long getTotal() {
-        return page.getTotal();
-      }
-    });
+    respPage.setCurrent(page.getCurrent());
+    respPage.setTotal(page.getTotal());
+    respPage.setSize(page.getSize());
     return respPage;
   }
 

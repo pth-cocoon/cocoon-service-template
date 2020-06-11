@@ -1,4 +1,4 @@
-package icu.cocoon.system.base;
+package icu.cocoon.dao.base;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -6,13 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import icu.cocoon.core.resp.IResp;
-import icu.cocoon.dao.base.BaseEntity;
-import icu.cocoon.dao.base.BaseIService;
-import icu.cocoon.dao.base.Resp;
-import icu.cocoon.dao.base.RespPage;
-import icu.cocoon.security.service.SecurityUserService;
-import icu.cocoon.system.entity.User;
-import icu.cocoon.system.service.UserService;
+import icu.cocoon.core.resp.RespPage;
 import io.swagger.annotations.ApiOperation;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,7 +19,6 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,19 +37,7 @@ public abstract class BaseController<T extends BaseEntity, S extends BaseIServic
   @Autowired(required = false)
   protected S service;
 
-  @Resource
-  private SecurityUserService securityService;
 
-  @Resource
-  private UserService userService;
-
-  protected User getCurrentUser() {
-    UserDetails details = securityService.getCurrentUserUserDetails();
-    if (details==null){
-      return null;
-    }
-    return userService.getByUsername(details.getUsername());
-  }
 
   @Resource
   @Getter

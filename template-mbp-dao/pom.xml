@@ -45,5 +45,11 @@
       <version>2.2</version>
     </dependency>
 
+    <!--SpringBoot 2.3.0 之后版本默认不带validation-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+
   </dependencies>
 </project>
