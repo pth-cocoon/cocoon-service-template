@@ -22,6 +22,12 @@
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>icu.cocoon.template</groupId>
+      <artifactId>common-utils</artifactId>
+      <version>0.0.1</version>
+    </dependency>
+
     <!--Spring Test-->
     <dependency>
       <groupId>org.springframework.boot</groupId>

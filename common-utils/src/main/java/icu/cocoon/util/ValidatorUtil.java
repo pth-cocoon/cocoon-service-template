@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * @author xce
  * @date 2020/3/19  17:58
+ * @node 数据校验工具类，待补充
  */
 public class ValidatorUtil {
 

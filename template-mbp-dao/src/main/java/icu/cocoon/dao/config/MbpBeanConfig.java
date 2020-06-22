@@ -1,20 +1,21 @@
 package icu.cocoon.dao.config;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
 public class MbpBeanConfig {
 
-  @Bean
+  /**
+   * MybatisPlus 默认分页配置，默认上限500
+   */
+  @ConditionalOnMissingBean
   public PaginationInterceptor paginationInterceptor() {
-    PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
-    paginationInterceptor.setLimit(500);
-    paginationInterceptor.setCountSqlParser(new JsqlParserCountOptimize(true));
-    return paginationInterceptor;
+    return new PaginationInterceptor();
   }
+
+
 
 }

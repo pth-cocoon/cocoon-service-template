@@ -6,6 +6,7 @@ import java.util.List;
 /**
  * @author xce
  * @date 2020/4/1  14:31
+ * @node 生成的树对象，用于返回给前端
  */
 public class TreeNode {
 

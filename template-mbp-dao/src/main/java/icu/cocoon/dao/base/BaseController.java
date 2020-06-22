@@ -1,23 +1,26 @@
 package icu.cocoon.dao.base;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
-import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import icu.cocoon.core.resp.IResp;
 import icu.cocoon.core.resp.RespPage;
+import icu.cocoon.util.ReflectUtil;
 import io.swagger.annotations.ApiOperation;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +40,14 @@ public abstract class BaseController<T extends BaseEntity, S extends BaseIServic
   @Autowired(required = false)
   protected S service;
 
+  private final Class<T> entityClass;
 
+  public BaseController() {
+    Type superclass = this.getClass().getGenericSuperclass();
+    ParameterizedType type = (ParameterizedType) superclass;
+    Type[] types = type.getActualTypeArguments();
+    this.entityClass = (Class<T>) types[0];
+  }
 
   @Resource
   @Getter
@@ -48,15 +58,20 @@ public abstract class BaseController<T extends BaseEntity, S extends BaseIServic
   }
 
 
-  protected HashMap<String, SFunction<T, ?>> getQueryFields() {
-    return new HashMap<>();
+  protected Set<String> getQueryFields() {
+    Class<T> entityClass = this.entityClass;
+    return ReflectUtil.getFieldName(entityClass);
   }
 
-  protected LambdaQueryWrapper<T> getWrapper(Map<String, String> params) {
-    HashMap<String, SFunction<T, ?>> map = getQueryFields();
-    LambdaQueryWrapper<T> wrapper = new LambdaQueryWrapper<>();
-    params.keySet().stream().filter(map::containsKey).forEach(k -> wrapper.eq(map.get(k), params.get(k)));
-    return wrapper;
+  protected QueryWrapper<T> getWrapper(Map<String, String> params) {
+    Set<String> fields = getQueryFields();
+    QueryWrapper<T> orgWrapper = Wrappers.query();
+    params.forEach((k, v) -> {
+      if (fields.contains(k)) {
+        orgWrapper.eq(StringUtils.camelToUnderline(k), v);
+      }
+    });
+    return orgWrapper;
   }
 
   protected IPage<T> getPage(Map<String, String> params) {
@@ -97,9 +112,9 @@ public abstract class BaseController<T extends BaseEntity, S extends BaseIServic
 
   @ApiOperation("创建")
   @PostMapping
-  public IResp<Integer> create(@RequestBody T model) {
+  public IResp<T> create(@RequestBody T model) {
     service.create(model);
-    return Resp.success();
+    return Resp.success(model);
   }
 
   @ApiOperation("更新")
