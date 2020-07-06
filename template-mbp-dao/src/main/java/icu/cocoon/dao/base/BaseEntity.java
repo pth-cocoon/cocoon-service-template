@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import lombok.Getter;
@@ -19,6 +21,7 @@ import lombok.Setter;
 @Setter
 public abstract class BaseEntity implements Serializable {
 
+  @JsonSerialize(using= ToStringSerializer.class)
   @TableId(type = IdType.ASSIGN_ID)
   protected Long id;
 

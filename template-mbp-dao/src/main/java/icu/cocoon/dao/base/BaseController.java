@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import icu.cocoon.core.resp.IResp;
+import icu.cocoon.core.resp.Resp;
 import icu.cocoon.core.resp.RespPage;
 import icu.cocoon.util.ReflectUtil;
 import io.swagger.annotations.ApiOperation;
@@ -91,13 +91,13 @@ public abstract class BaseController<T extends BaseEntity, S extends BaseIServic
 
   @ApiOperation("根据Id获取实体")
   @GetMapping("/{id:\\d+}")
-  public IResp<T> getById(@PathVariable Long id) {
+  public Resp<T> getById(@PathVariable Long id) {
     return Resp.success(service.getById(id));
   }
 
   @ApiOperation("获取全部实体")
   @GetMapping
-  public IResp<List<T>> getAll() {
+  public Resp<List<T>> getAll() {
     return Resp.success(service.list());
   }
 
@@ -112,21 +112,21 @@ public abstract class BaseController<T extends BaseEntity, S extends BaseIServic
 
   @ApiOperation("创建")
   @PostMapping
-  public IResp<T> create(@RequestBody T model) {
+  public Resp<T> create(@RequestBody T model) {
     service.create(model);
     return Resp.success(model);
   }
 
   @ApiOperation("更新")
   @PutMapping
-  public IResp<T> update(@RequestBody @Valid T model) {
+  public Resp<T> update(@RequestBody @Valid T model) {
     service.update(model);
     return Resp.success(model);
   }
 
   @ApiOperation("删除")
   @DeleteMapping("/{id:\\d+}")
-  public IResp<String> delete(@PathVariable Long id) {
+  public Resp<String> delete(@PathVariable Long id) {
     service.removeById(id);
     return Resp.success();
   }
@@ -134,7 +134,7 @@ public abstract class BaseController<T extends BaseEntity, S extends BaseIServic
 
   @ApiOperation("批量删除")
   @DeleteMapping
-  public IResp<String> deleteAll(@RequestBody Long[] ids) {
+  public Resp<String> deleteAll(@RequestBody Long[] ids) {
     getService().removeByIds(Arrays.asList(ids));
     return Resp.success();
   }

@@ -1,5 +1,6 @@
 package icu.cocoon.core.config;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -40,14 +41,14 @@ public class CoreBeanConfig {
     log.warn("目前已集成配置：");
     log.warn("long 转字符串-防止损失精度");
     log.warn("localDateTime,localDate,localTime 相关配置");
+    log.warn("mybatis-plus 枚举类映射");
     return builder -> builder
         .serializerByType(Long.class, ToStringSerializer.instance)
-        .serializerByType(LocalDateTime.class,
-            new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATETIME_FORMAT)))
+        .featuresToEnable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING)
+        .serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATETIME_FORMAT)))
         .serializerByType(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(DATE_FORMAT)))
         .serializerByType(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(TIME_FORMAT)))
-        .deserializerByType(LocalDateTime.class,
-            new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DATETIME_FORMAT)))
+        .deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DATETIME_FORMAT)))
         .deserializerByType(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(DATE_FORMAT)))
         .deserializerByType(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(TIME_FORMAT)));
   }
