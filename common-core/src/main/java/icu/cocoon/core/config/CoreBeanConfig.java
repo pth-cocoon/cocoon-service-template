@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -35,7 +36,8 @@ public class CoreBeanConfig {
    */
   private static final String TIME_FORMAT = "HH:mm:ss";
 
-  @ConditionalOnMissingBean
+  @Bean
+  @ConditionalOnMissingBean(Jackson2ObjectMapperBuilderCustomizer.class)
   public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
     log.warn("默认序列化反序列化配置");
     log.warn("目前已集成配置：");
