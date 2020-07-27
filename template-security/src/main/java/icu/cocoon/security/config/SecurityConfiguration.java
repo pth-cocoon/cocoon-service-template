@@ -17,6 +17,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -62,11 +63,12 @@ public abstract class SecurityConfiguration extends WebSecurityConfigurerAdapter
     loginFilter.setAuthenticationFailureHandler(getLoginFailureHandler());
     http.authorizeRequests()
         .antMatchers(getWhiteList()).permitAll()
-//        .antMatchers("/public/**", "/login", "/auth/**", "/sign/**", "/api/**").permitAll()
         .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security",
             "/swagger-ui.html", "/webjars/**", "/swagger-resources/configuration/ui", "/swagge‌r-ui.html").permitAll()
         .antMatchers(HttpMethod.OPTIONS).permitAll()
         .anyRequest().access("@rbacService.hasPermission(request,authentication)")
+        //关闭session
+        .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and().cors().and().csrf().disable()
         .addFilterBefore(new JwtFilter(securityUserService, jwtService),
             UsernamePasswordAuthenticationFilter.class)

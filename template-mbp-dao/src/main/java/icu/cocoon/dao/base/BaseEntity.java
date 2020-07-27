@@ -35,6 +35,9 @@ public abstract class BaseEntity implements Serializable {
    * @return long
    */
   public Long getCreateTime() {
+    if (id==null){
+      return 0L;
+    }
     return (id >> 22L & ~(-1L << 41L)) + 5L+1288834974657L;
   }
 

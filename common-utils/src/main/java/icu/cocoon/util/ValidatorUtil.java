@@ -38,7 +38,7 @@ public class ValidatorUtil {
   /**
    * 校验字符是否是中文
    * @param c 校验的char
-   * @return 是 返回ture
+   * @return 是 true
    */
   public static boolean isChineseByChar(char c){
     return Character.UnicodeScript.of(c) == Character.UnicodeScript.HAN;
