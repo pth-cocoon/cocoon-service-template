@@ -1,15 +1,13 @@
 package icu.cocoon.dao.base;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import icu.cocoon.dao.support.ValidationGroup;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,11 +20,10 @@ import lombok.Setter;
 public abstract class BaseEntity implements Serializable {
 
   @JsonSerialize(using= ToStringSerializer.class)
-  @TableId(type = IdType.ASSIGN_ID)
+  @NotNull(message = "ID不允许为空",groups = ValidationGroup.Edit.class)
   protected Long id;
 
   @JsonProperty(access = Access.READ_ONLY)
-  @TableField(fill = FieldFill.INSERT_UPDATE)
   @ApiModelProperty(value = "更新时间")
   protected Long updateTime;
 

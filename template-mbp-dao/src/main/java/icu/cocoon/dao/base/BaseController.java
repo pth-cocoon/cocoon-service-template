@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import icu.cocoon.core.resp.RespPage;
 import icu.cocoon.util.ReflectUtil;
 import io.swagger.annotations.ApiOperation;
 import java.lang.reflect.ParameterizedType;
@@ -57,37 +56,6 @@ public abstract class BaseController<T extends BaseEntity, S extends BaseIServic
   }
 
 
-  protected Set<String> getQueryFields() {
-    Class<T> entityClass = this.entityClass;
-    return ReflectUtil.getFieldName(entityClass);
-  }
-
-  protected QueryWrapper<T> getWrapper(Map<String, String> params) {
-    Set<String> fields = getQueryFields();
-    QueryWrapper<T> orgWrapper = Wrappers.query();
-    params.forEach((k, v) -> {
-      if (fields.contains(k)) {
-        orgWrapper.eq(StringUtils.camelToUnderline(k), v);
-      }
-    });
-    return orgWrapper;
-  }
-
-  protected IPage<T> getPage(Map<String, String> params) {
-    long page = 0;
-    long size = 10;
-    if (StringUtils.isNotBlank(params.get("page"))) {
-      page = Integer.parseInt(params.get("page"));
-      params.remove("page");
-    }
-    if (StringUtils.isNotBlank(params.get("size"))) {
-      size = Integer.parseInt(params.get("size"));
-      params.remove("size");
-    }
-    return new Page<T>(page, size).addOrder(OrderItem.desc("id"));
-
-  }
-
   @ApiOperation("根据Id获取实体")
   @GetMapping("/{id:\\d+}")
   public Resp<T> getById(@PathVariable Long id) {
@@ -102,11 +70,11 @@ public abstract class BaseController<T extends BaseEntity, S extends BaseIServic
 
   @ApiOperation("分页查询")
   @GetMapping("/page")
-  public RespPage<T> page(@RequestParam Map<String, String> params) {
+  public Resp<PageData<T>> page(@RequestParam Map<String, String> params) {
     if (params == null) {
-      return RespPage.success(getService().page(new Page<>()));
+      return Resp.success(new PageData<>(getService().page(new Page<>())));
     }
-    return RespPage.success(getService().page(getPage(params), getWrapper(params)));
+    return Resp.success(new PageData<>(getService().page(getPage(params), getWrapper(params))));
   }
 
   @ApiOperation("创建")
@@ -138,5 +106,36 @@ public abstract class BaseController<T extends BaseEntity, S extends BaseIServic
     return Resp.success();
   }
 
+
+  protected Set<String> getQueryFields() {
+    Class<T> entityClass = this.entityClass;
+    return ReflectUtil.getFieldName(entityClass);
+  }
+
+  protected QueryWrapper<T> getWrapper(Map<String, String> params) {
+    Set<String> fields = getQueryFields();
+    QueryWrapper<T> orgWrapper = Wrappers.query();
+    params.forEach((k, v) -> {
+      if (fields.contains(k)) {
+        orgWrapper.eq(StringUtils.camelToUnderline(k), v);
+      }
+    });
+    return orgWrapper;
+  }
+
+  protected IPage<T> getPage(Map<String, String> params) {
+    long page = 0;
+    long size = 10;
+    if (StringUtils.isNotBlank(params.get("page"))) {
+      page = Integer.parseInt(params.get("page"));
+      params.remove("page");
+    }
+    if (StringUtils.isNotBlank(params.get("size"))) {
+      size = Integer.parseInt(params.get("size"));
+      params.remove("size");
+    }
+    return new Page<T>(page, size).addOrder(OrderItem.asc("id"));
+
+  }
 
 }

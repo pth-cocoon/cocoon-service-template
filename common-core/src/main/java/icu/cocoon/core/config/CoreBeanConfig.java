@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.TimeZone;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
@@ -45,8 +46,9 @@ public class CoreBeanConfig {
     log.warn("localDateTime,localDate,localTime 相关配置");
     log.warn("mybatis-plus 枚举类映射");
     return builder -> builder
-        .serializerByType(Long.class, ToStringSerializer.instance)
         .featuresToEnable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING)
+        .timeZone(TimeZone.getDefault())
+        .serializerByType(Long.class, ToStringSerializer.instance)
         .serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATETIME_FORMAT)))
         .serializerByType(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(DATE_FORMAT)))
         .serializerByType(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(TIME_FORMAT)))
@@ -54,6 +56,5 @@ public class CoreBeanConfig {
         .deserializerByType(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(DATE_FORMAT)))
         .deserializerByType(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(TIME_FORMAT)));
   }
-
 
 }

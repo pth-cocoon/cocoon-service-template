@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,7 +32,7 @@ public class JwtFilter extends OncePerRequestFilter {
   }
 
   protected String getJwtToken(HttpServletRequest request) {
-    String authInfo = request.getHeader("Authorization");
+    String authInfo = request.getHeader(HttpHeaders.AUTHORIZATION);
     return StringUtils.removeStart(authInfo, "Bearer ");
   }
 
