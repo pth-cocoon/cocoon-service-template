@@ -4,9 +4,9 @@ spring:
       name: root
       password: root
   datasource:
-    url: jdbc:mysql://103.45.105.120:3306/cocoon-template-demo?serverTimezone=UTC
-    username: xce
-    password: xce123456
+    url: jdbc:mysql://127.0.0.1:3306/cocoon-template-demo?serverTimezone=UTC
+    username: root
+    password: root
     hikari:
       max-lifetime: 30000
   cache:
