@@ -2,6 +2,7 @@ package icu.cocoon.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import icu.cocoon.security.factory.AuthenticationTokenFactory;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -45,11 +46,18 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
   @Override
   public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-      throws AuthenticationException, IOException {
+    throws AuthenticationException, IOException {
     if (!POST_METHOD.equals(request.getMethod())) {
       throw new AuthenticationServiceException("仅支持" + request.getMethod());
     }
-    Map params = new ObjectMapper().readValue(request.getReader().readLine(), Map.class);
+    BufferedReader br = request.getReader();
+
+    String str;
+    StringBuilder wholeStr = new StringBuilder();
+    while((str = br.readLine()) != null) {
+      wholeStr.append(str);
+    }
+    Map params = new ObjectMapper().readValue(wholeStr.toString(), Map.class);
     Authentication manager;
     AbstractAuthenticationToken token = AuthenticationTokenFactory.getAuthenticationToken(params);
     setDetails(request, token);

@@ -2,6 +2,9 @@ package icu.cocoon.security.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
+/**
+ * 默认使用Jwt作实现，封装了部分Jwt相关动作
+ */
 public interface JwtService {
 
 

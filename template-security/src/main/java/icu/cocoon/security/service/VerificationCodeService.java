@@ -1,7 +1,7 @@
 package icu.cocoon.security.service;
 
 /**
- * 验证码功能实现.
+ * 验证码接口，具体业务需自行实现.
  *
  * @author xce
  * @date 2020/3/19  11:37

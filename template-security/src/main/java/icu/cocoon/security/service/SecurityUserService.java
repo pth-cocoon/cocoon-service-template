@@ -3,6 +3,9 @@ package icu.cocoon.security.service;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+/**
+ * 需要实现的最基本的UserDetails相关业务
+ */
 public interface SecurityUserService extends UserDetailsService {
 
   /**
